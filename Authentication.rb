@@ -13,9 +13,9 @@ class Authentication
 				"url" => "http://127.0.0.1/dvwa/login.php"
 			},
 			"bodgeit" => {
-				"username" => "none",
-				"password" => "none",
-				"url" => "http://127.0.0.1:8080/bodgeit"
+				"username" => "test@thebodgeitstore.com",
+				"password" => "password",
+				"url" => "http://127.0.0.1:8080/bodgeit/login.jsp"
 			}
 		}
 
