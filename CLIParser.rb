@@ -6,7 +6,7 @@ class CLIParser
 						 'slow' => 'int',
 						 'url' => 'str',
 						 'custom-auth' => 'str'}
-	@@supportedCustomAuthentications = ["DVWA", "BodgeIt"]
+	@@supportedCustomAuthentications = ["dvwa", "bodgeit"]
 	def self.parse
 		options = {}
 		if ARGV.length < 2
@@ -40,9 +40,11 @@ class CLIParser
 					when 'str'
 						optionValue = optArray[1]
 						if optionKey == "custom-auth"
-							if ! @@supportedCustomAuthentications.include? optionValue
+							if ! @@supportedCustomAuthentications.any?{|s| s.casecmp(optionValue) ==0}
 								puts "System supports custom authentication for: #{@@supportedCustomAuthentications}"
 								abort
+							else
+								optionValue.downcase!
 							end
 						end
 					when 'bool'
