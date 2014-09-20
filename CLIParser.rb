@@ -15,7 +15,6 @@ class CLIParser
 		# Other options
 			# part 1: --custom-auth --common-words
 		ARGV[2..-1].each do|arg|
-			puts "#{arg}"
 
 			# split each option
 			options(arg)
@@ -27,14 +26,12 @@ class CLIParser
 
 	def self.options(arg)
 
-		arg.chomp
+		opt = arg.split('=')
 
-		if (arg.downcase.include? "--custom-auth")
-			customAuth = arg.split('=')
-			puts "#{customAuth[1]}"
-		elsif (arg.downcase.include? "--common-words")
-			wordFile = arg.split('=')
-			puts "#{wordFile[1]}"
+		if (opt[0].downcase.include? "--custom-auth")
+			puts "#{opt[0]}  #{opt[1]}"
+		elsif (opt[0].downcase.include? "--common-words")
+			puts "#{opt[0]}  #{opt[1]}"
 		end
 
 	end

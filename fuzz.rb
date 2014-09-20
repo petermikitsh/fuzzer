@@ -8,11 +8,11 @@ class Fuzz
 	end
 
 
-	def self.Auth()
-		Authentication.authenticate
+	def self.Auth(app)
+		Authentication.authenticate(app)
 	end
 
 	Fuzz.Parse
-	Fuzz.Auth
+	# Fuzz.Auth
 
 end
