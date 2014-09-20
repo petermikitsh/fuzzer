@@ -47,6 +47,7 @@ class Authentication
 			puts "Authentication via #{app} is not allowed."
 		end
 
+		agent
 
 	end
 
