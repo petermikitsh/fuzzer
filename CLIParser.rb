@@ -1,42 +1,37 @@
 class CLIParser
-
+	@@acceptedOptions = ['command', 'url', 'common-words', 'vectors', 'sensitive', 'random', 'slow', 'url', 'custom-auth']
 	def self.parse
-
-		# ruby fuzz [discover | test] url OPTIONS 
-		if (ARGV[0] == 'discover')
-			puts 'discovery'
-		elsif (ARGV[0] == 'test')
-			puts 'testdat'
+		options = {}
+		if ARGV.length <= 2
+			puts 'Wrong length.  Style is fuzz [discover | test] url OPTIONS'
+			abort
 		end
+		#ruby fuzz [discover | test] url OPTIONS
+		options['command'] = ARGV[0]
+		options['url'] = ARGV[1]
 
-		# test URL
-		testURL = ARGV[1]
-
-		# Other options
-			# part 1: --custom-auth --common-words
-		ARGV[2..-1].each do|arg|
-
-			# split each option
-			options(arg)
-
+		#OPTIONS are in the form --optionName=value
+		ARGV[2..-1].each do|arg|#Other options
+			optArray = Array.new
+			optArray = arg.split('=')
+			if optArray.length != 2
+				puts 'Wrong length of for option ' + arg
+				abort
+			elsif optArray[0][0..1] != '--'
+				puts 'Bad option formatting: no --s for option ' + arg
+				abort
+			else
+				strOption = optArray[0][2..-1]
+				if @@acceptedOptions.include? strOption
+					options[strOption] = optArray[1]
+				else
+					puts "Option #{strOption} not supported"
+					abort
+				end
+			end
 		end
-
+		puts options
+		return options
 	end
-
-
-	def self.options(arg)
-
-		opt = arg.split('=')
-
-		if (opt[0].downcase.include? "--custom-auth")
-			puts "#{opt[0]}  #{opt[1]}"
-
-			# call the authentication funciton in fuzz
-
-		elsif (opt[0].downcase.include? "--common-words")
-			puts "#{opt[0]}  #{opt[1]}"
-		end
-
-	end
-
+	parse
 end
