@@ -69,7 +69,6 @@ class CLIParser
 				end
 			end
 		end
-		puts options
 		return options
 	end
 

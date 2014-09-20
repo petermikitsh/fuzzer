@@ -1,5 +1,6 @@
 require 'net/http'
 require 'mechanize'
+require 'json'
 
 class Authentication
 
@@ -38,6 +39,8 @@ class Authentication
 			else
 				# auth was successful
 				puts "Authenticated to #{webapp}."
+				puts "Cookies:"
+				puts JSON.pretty_generate(agent.cookies)
 			end
 
 		else
