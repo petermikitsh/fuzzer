@@ -1,26 +1,45 @@
+require 'net/http'
+require 'mechanize'
+
 class Authentication
 
 	def self.authenticate(app)
 
-		# authenticate via dvwa
-		if (app.downcase == "dvwa")
+		auth = {
+			"dvwa" => {
+				"username" => "admin",
+				"password" => "password",
+				"url" => "http://127.0.0.1/dvwa/login.php"
+			},
+			"bodgeit" => {
+				"username" => "none",
+				"password" => "none",
+				"url" => "http://127.0.0.1:8080/bodgeit"
+			}
+		}
 
-			username = "admin"
-			password = "password"
-			url = "http://127.0.0.1/dvwa/login.php"
+		agent = Mechanize.new
+		webapp = app.downcase
+		credentials = auth[webapp]
 
-			# TODO - authenticate
+		# authenticate via dvwa / bodgeit
+		if (["dvwa", "bodgeit"].include? webapp)
 
+			puts "Generating POST Request to #{webapp}..."
 
-		# authenticate via bodgeit
-		elsif (app.downcase == "bodgeit")
+			begin
+				agent.post(auth[webapp]["url"], {
+					"username" => auth[webapp]["username"],
+					"password" => auth[webapp]["password"],
+					"Login" =>  "Login"
+				})
+			rescue Mechanize::ResponseCodeError
+				puts "Could not authenticate to #{webapp}."
+			else
+				# auth was successful
+				puts "Authenticated to #{webapp}."
+			end
 
-			username = "none"
-			password = "none"
-			url = "http://127.0.0.1:8080/bodgeit"
-
-			# TODO - authenticate
-			
 		else
 			puts "Authentication via #{app} is not allowed."
 		end
