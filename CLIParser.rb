@@ -27,12 +27,14 @@ class CLIParser
 
 	def self.options(arg)
 
-		if (arg.downcase == "--custom-auth=dvwa")
-			puts "this needs to be authenticated for dvwa."
-		elsif (arg.downcase == "--custom-auth=bodgeit")
-			puts "this needs to be authenticated for bodgeit."
+		arg.chomp
+
+		if (arg.downcase.include? "--custom-auth")
+			customAuth = arg.split('=')
+			puts "#{customAuth[1]}"
 		elsif (arg.downcase.include? "--common-words")
-			puts "custom-words..."
+			wordFile = arg.split('=')
+			puts "#{wordFile[1]}"
 		end
 
 	end
