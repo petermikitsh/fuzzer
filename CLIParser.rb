@@ -47,6 +47,10 @@ class CLIParser
 						end
 					when 'bool'
 						optionValue = to_boolean(optArray[1])
+						if optionValue == nil
+							puts "Bad boolean given for #{optionKey}"
+							abort						
+						end
 					when 'int'
 						if is_i(optArray[1])#Need to test if optArray[1] is an int
 							optionValue = optArray[1].to_i
@@ -76,11 +80,11 @@ class CLIParser
       elsif (str == 'false')
       	return false
       else
-      	puts "Non boolean value given for argument random"
-      	abort
+      	return nil
       end	
     end
 
+    #Checks if str is a valid integer (ie only contains 0..9)
     def self.is_i(str)
     	x = /\d+/ =~ str
     	if x != nil
@@ -89,5 +93,7 @@ class CLIParser
     		return false
     	end
     end
+
+    #Call self.parse for testing
 	parse
 end
