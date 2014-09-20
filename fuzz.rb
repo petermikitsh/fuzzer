@@ -3,17 +3,11 @@ require_relative 'Authentication'
 
 class Fuzz
 
-	def self.Parse()
-		CLIParser.parse
+	def self.Main
+		input = CLIParser.parse
+		Authentication.authenticate(input['custom-auth'])
 	end
 
-	#  @args => custom app to authenticate against
-	def self.Auth(app)
-		Authentication.authenticate(app)
-	end
-
-	Fuzz.Parse
-	app = "dvwa";
-	Fuzz.Auth(app)
+	Fuzz.Main
 
 end
