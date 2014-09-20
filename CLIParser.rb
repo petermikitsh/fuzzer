@@ -1,5 +1,12 @@
 class CLIParser
-	@@acceptedOptions = ['command', 'url', 'common-words', 'vectors', 'sensitive', 'random', 'slow', 'url', 'custom-auth']
+	@@acceptedOptions = {"common-words" => "str", 
+						 "vectors" => "str",
+						 'sensitive' => 'str',
+						 'random' => 'bool',
+						 'slow' => 'int',
+						 'url' => 'str',
+						 'custom-auth' => 'str'}
+
 	def self.parse
 		options = {}
 		if ARGV.length <= 2
@@ -21,11 +28,23 @@ class CLIParser
 				puts 'Bad option formatting: no --s for option ' + arg
 				abort
 			else
-				strOption = optArray[0][2..-1]
-				if @@acceptedOptions.include? strOption
-					options[strOption] = optArray[1]
+				optionKey = optArray[0][2..-1]
+				if @@acceptedOptions.include? optionKey
+					case @@acceptedOptions[optionKey]
+					when 'str'
+						optionValue = optArray[1]
+					when 'bool'
+						optionValue = to_boolean(optArray[1])
+					when 'int'
+						#Need to test if optArray[1] is an int
+						optionValue = optArray[1].to_i
+					else
+						puts 'Bad value for option ' + arg
+						abort
+					end
+					options[optionKey] = optionValue
 				else
-					puts "Option #{strOption} not supported"
+					puts "Option #{optionKey} not supported"
 					abort
 				end
 			end
@@ -33,5 +52,18 @@ class CLIParser
 		puts options
 		return options
 	end
+
+	#Converts ("true" | "false") into boolean values
+	def self.to_boolean(str)
+      if (str == 'true')
+      	return true
+      elsif (str == 'false')
+      	return false
+      else
+      	puts "Non boolean value given for argument random"
+      	abort
+      end	
+    end
+
 	parse
 end
