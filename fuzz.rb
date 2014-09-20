@@ -7,12 +7,13 @@ class Fuzz
 		CLIParser.parse
 	end
 
-
+	#  @args => custom app to authenticate against
 	def self.Auth(app)
 		Authentication.authenticate(app)
 	end
 
 	Fuzz.Parse
-	# Fuzz.Auth
+	app = "dvwa";
+	Fuzz.Auth(app)
 
 end

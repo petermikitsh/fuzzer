@@ -30,6 +30,9 @@ class CLIParser
 
 		if (opt[0].downcase.include? "--custom-auth")
 			puts "#{opt[0]}  #{opt[1]}"
+
+			# call the authentication funciton in fuzz
+
 		elsif (opt[0].downcase.include? "--common-words")
 			puts "#{opt[0]}  #{opt[1]}"
 		end
