@@ -52,6 +52,7 @@ class CLIParser
 							optionValue = optArray[1].to_i
 						else
 							puts "Argument for #{optionKey} not an int"
+							abort
 						end
 					else
 						puts 'Bad value for option ' + arg
