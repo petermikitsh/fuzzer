@@ -6,15 +6,21 @@ class CLIParser
 						 'slow' => 'int',
 						 'url' => 'str',
 						 'custom-auth' => 'str'}
-
+	@@supportedCustomAuthentications = ["DVWA", "BodgeIt"]
 	def self.parse
 		options = {}
-		if ARGV.length <= 2
+		if ARGV.length < 2
 			puts 'Wrong length.  Style is fuzz [discover | test] url OPTIONS'
 			abort
 		end
 		#ruby fuzz [discover | test] url OPTIONS
+		if (ARGV[0] != "discover") && (ARGV[0] !="test")
+			puts "Bad command #{ARGV[0]}. Supported commands are discover and test"
+			abort
+		end
 		options['command'] = ARGV[0]
+
+		#Verify integrity of URL argument here
 		options['url'] = ARGV[1]
 
 		#OPTIONS are in the form --optionName=value
@@ -22,10 +28,10 @@ class CLIParser
 			optArray = Array.new
 			optArray = arg.split('=')
 			if optArray.length != 2
-				puts 'Wrong length of for option ' + arg
+				puts 'Wrong length for option ' + arg
 				abort
 			elsif optArray[0][0..1] != '--'
-				puts 'Bad option formatting: no --s for option ' + arg
+				puts "Bad option formatting: no --s for option #{arg}"
 				abort
 			else
 				optionKey = optArray[0][2..-1]
@@ -33,11 +39,20 @@ class CLIParser
 					case @@acceptedOptions[optionKey]
 					when 'str'
 						optionValue = optArray[1]
+						if optionKey == "custom-auth"
+							if ! @@supportedCustomAuthentications.include? optionValue
+								puts "System supports custom authentication for: #{@@supportedCustomAuthentications}"
+								abort
+							end
+						end
 					when 'bool'
 						optionValue = to_boolean(optArray[1])
 					when 'int'
-						#Need to test if optArray[1] is an int
-						optionValue = optArray[1].to_i
+						if is_i(optArray[1])#Need to test if optArray[1] is an int
+							optionValue = optArray[1].to_i
+						else
+							puts "Argument for #{optionKey} not an int"
+						end
 					else
 						puts 'Bad value for option ' + arg
 						abort
@@ -65,5 +80,13 @@ class CLIParser
       end	
     end
 
+    def self.is_i(str)
+    	x = /\d+/ =~ str
+    	if x != nil
+    		return true
+    	else
+    		return false
+    	end
+    end
 	parse
 end
