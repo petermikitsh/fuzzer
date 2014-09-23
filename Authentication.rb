@@ -20,7 +20,7 @@ class Authentication
 		}
 
 		agent = Mechanize.new
-		webapp = app.downcase
+		webapp = app
 		credentials = auth[webapp]
 
 		# authenticate via dvwa / bodgeit
