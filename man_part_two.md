@@ -1,13 +1,3 @@
-fuzzer
-======
-
-Web Application Fuzz Testing Tool for SE 331 Engineering Secure Software.
-
-[Project Description](http://www.se.rit.edu/~swen-331/projects/fuzzer/)
-
-Usage
------
-
 ```
 fuzz [discover | test] url OPTIONS
 
@@ -36,10 +26,4 @@ Examples:
 
   # Discover and Test DVWA without randomness
   fuzz test http://localhost:8080 --custom-auth=dvwa --common-words=words.txt --vectors=vectors.txt --sensitive=creditcards.txt --random=false
- ```
-
-
-License
-----
-
-MIT
+```
