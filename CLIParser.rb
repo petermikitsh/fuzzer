@@ -47,6 +47,26 @@ class CLIParser
 								optionValue.downcase!
 							end
 						end
+						if optionKey == 'vectors'
+							if File.exists?(optionValue)
+								#puts 'fu'
+								words = Array.new
+								begin 
+									f = File.new(optionValue) 
+									#ords = Array.new
+									while(line = f.readline)
+										word = line.chomp
+										words.push(word)
+									end
+								rescue EOFError
+									f.close
+								end
+								optionValue = words
+							else
+								puts 'File #{optionValue} not found.'
+								abort
+							end
+						end
 					when 'bool'
 						optionValue = to_boolean(optArray[1])
 						if optionValue == nil
@@ -71,6 +91,7 @@ class CLIParser
 				end
 			end
 		end
+		puts options
 		return options
 	end
 
