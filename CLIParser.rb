@@ -49,14 +49,14 @@ class CLIParser
 						end
 						if optionKey == 'vectors'
 							if File.exists?(optionValue)
-								#puts 'fu'
 								words = Array.new
 								begin 
 									f = File.new(optionValue) 
-									#ords = Array.new
 									while(line = f.readline)
-										word = line.chomp
-										words.push(word)
+										if line != "\n"
+											word = line.chomp
+											words.push(word)
+										end
 									end
 								rescue EOFError
 									f.close
