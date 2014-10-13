@@ -4,19 +4,28 @@ require 'json'
 class Crawler
 
 	@@links = Array.new
+	@@formInputs = Array.new
 	@@site = String.new
 
 	def self.crawl(agent, filename)
 
 		@@site = agent.page.uri
+
 		puts "\nStarting Crawler on #{@@site} ..."
 		
 		# find all the link on initial page and crawl deeper
 		pageLinks = agent.get(@@site).links.find_all { |link| @@links.push(link.href) } 
 		@@links.uniq.each do |link| 
 			crawldeep(agent, link)
+			forminputs(agent, link)
 		end
-		puts JSON.pretty_generate(@@links.uniq) 
+		# print site links
+		puts "Site Links"
+		puts JSON.pretty_generate(@@links.uniq)
+
+		# prints form inputs
+		puts "\nForm Inputs"
+		puts JSON.pretty_generate(@@formInputs.uniq)
 
 		puts "\nSearching site from given words."
 
@@ -62,6 +71,18 @@ class Crawler
 			end
 		rescue Mechanize::ResponseCodeError
 			# puts "#{link} received an error."
+		end
+	end
+
+	# crawl for form inputs
+	def self.forminputs(agent,link)
+		begin 
+			pageForms = agent.get(@@site + link).forms
+			pageForms.each do |f|
+				@@formInputs.push("#{link} => " + "#{f.fields}")
+			end
+		rescue Mechanize::ResponseCodeError => e
+			puts "\tError: #{e.response_code} => for form on page #{e.page.uri}"
 		end
 	end
 
