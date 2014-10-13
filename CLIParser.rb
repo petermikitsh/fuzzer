@@ -67,6 +67,26 @@ class CLIParser
 								abort
 							end
 						end
+						if optionKey == 'sensitive'
+							if File.exists?(optionValue)
+								words = Array.new
+								begin 
+									f = File.new(optionValue) 
+									while(line = f.readline)
+										if line != "\n"
+											word = line.chomp
+											words.push(word)
+										end	
+									end
+								rescue EOFError
+									f.close
+								end
+								optionValue = words
+							else
+								puts 'File #{optionValue} not found.'
+								abort
+							end
+						end
 					when 'bool'
 						optionValue = to_boolean(optArray[1])
 						if optionValue == nil

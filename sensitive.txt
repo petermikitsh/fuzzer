@@ -1,0 +1,7 @@
+Credit Card
+MySQL
+SQL
+NOSQL
+OLAP
+Password
+Administrator
