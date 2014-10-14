@@ -9,6 +9,7 @@ class CLIParser
 	@@supportedCustomAuthentications = ["dvwa", "bodgeit"]
 	def self.parse
 		options = {}
+		#puts ARGV.inspect
 		if ARGV.length < 2
 			puts 'Wrong length.  Style is fuzz [discover | test] url OPTIONS'
 			abort
@@ -18,10 +19,6 @@ class CLIParser
 			puts "Bad command #{ARGV[0]}. Supported commands are discover and test"
 			abort
 		end
-		options['command'] = ARGV[0]
-
-		#Verify integrity of URL argument here
-		options['url'] = ARGV[1]
 
 		#OPTIONS are in the form --optionName=value
 		ARGV[2..-1].each do|arg|#Other options
@@ -30,7 +27,7 @@ class CLIParser
 			if optArray.length != 2
 				puts 'Wrong length for option ' + arg
 				abort
-			elsif optArray[0][0..1] != '--'
+			elsif arg[0..1] != '--'
 				puts "Bad option formatting: no --s for option #{arg}"
 				abort
 			else
@@ -111,7 +108,7 @@ class CLIParser
 				end
 			end
 		end
-		puts options
+	#	puts options
 		return options
 	end
 
@@ -137,5 +134,5 @@ class CLIParser
     end
 
     #Call self.parse for testing
-	parse
+	#parse
 end
