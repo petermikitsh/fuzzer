@@ -27,19 +27,22 @@ class Crawler
 		puts "\nForm Inputs"
 		puts JSON.pretty_generate(@@formInputs.uniq)
 
-		puts "\nSearching site from given words."
-
 		# if words file exist search site for it
-		if File.exist?(filename)
-			begin 
-				f = File.new(filename) 
-				while(line = f.readline)
-					word = line.chomp
-					searchSite(agent, word, @@site)
+		if(filename != nil) 
+			puts "\nSearching site from given words."
+			if File.exist?(filename)
+				begin 
+					f = File.new(filename) 
+					while(line = f.readline)
+						word = line.chomp
+						searchSite(agent, word, @@site)
+					end
+				rescue EOFError
+					f.close
 				end
-			rescue EOFError
-				f.close
 			end
+		else
+			puts "No common-words file Specified."
 		end
 
 		return @@links.uniq #retuns a list of all the unique links
