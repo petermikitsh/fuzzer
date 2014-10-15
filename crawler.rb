@@ -42,7 +42,7 @@ class Crawler
 				end
 			end
 		else
-			puts "No common-words file Specified."
+			# puts "No common-words file Specified."
 		end
 
 		return @@links.uniq #retuns a list of all the unique links
