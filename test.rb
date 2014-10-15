@@ -5,8 +5,10 @@
 #               the target.
 #
 # Author: Peter Mikitsh pam3961
+# Author: Akshay Karnawat
 
 require 'mechanize'
+require 'net/http'
 
 class Test
 
@@ -14,13 +16,20 @@ class Test
 	# vectors: string array of replacive vectors to append to urls
 	# authAgent: optional 'Mechanize' agent (if authentication used
 
-	def self.test(urls, vectors, authAgent)
-		agent = authAgent ? authAgent : Mechanize.new
-		urls.each do |url|
+	def self.test(urls, vectors, authAgent, random, slow)
+		puts "Testing Vectors..."
+		
+		# create a new agent with timeout attributes
+		agent = authAgent ? authAgent : Mechanize.new {|a| 
+			a.open_timeout = slow
+			a.read_timeout = slow
+		}
+
+		# urls.each do |url|
 			vectors.each do |vector|
-				Test.replaciveFuzz(url, vector, agent)
+				Test.replaciveFuzz(urls, vector, agent)
 			end
-		end
+		# end
 	end
 
 	def self.createAttackURL(url, vector)
@@ -29,9 +38,10 @@ class Test
 
 	def self.replaciveFuzz(url, vector, agent)
 		begin
-		  agent.get(Test.createAttackURL(url, vector))
-		rescue Mechanize::ResponseCodeError
-			puts "Unexcepted response code."
+			puts "Testing #{vector} on #{url}"
+		  	agent.get(Test.createAttackURL(url, vector))
+		rescue Mechanize::ResponseCodeError => e
+			puts "\t#{e.response_code} Unexcepted response code."
 		end
 	end
 
