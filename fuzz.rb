@@ -11,7 +11,9 @@ class Fuzz
 			agent = Authentication.authenticate(input['custom-auth'])
 			crawl = Crawler.crawl(agent, input['common-words'])
 		elsif (ARGV[0] == "test")
-			test = Test.test(input['url'], input['vectors'], nil, input['random'], input['slow'])
+			agent = Authentication.authenticate(input['custom-auth'])
+			crawl = Crawler.crawl(agent, input['common-words'])
+			test = Test.test(crawl, input['vectors'], nil, input['random'], input['slow'])
 		end
 	end
 

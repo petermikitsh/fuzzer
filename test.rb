@@ -17,14 +17,17 @@ class Test
 	# vectors: string array of replacive vectors to append to urls
 	# authAgent: optional 'Mechanize' agent (if authentication used
 
-	def self.test(url, vectors, authAgent, random, timeout)
+	def self.test(urls, vectors, authAgent, random, timeout)
 		puts "Testing Vectors..."
 		
 		# create a new agent with timeout attributes
 		agent = authAgent ? authAgent : Mechanize.new
 
-		vectors.each do |vector|
-			Test.replaciveFuzz(url, vector, agent, timeout)
+		urls.shift
+		urls.each do |url|
+			vectors.each do |vector|
+				Test.replaciveFuzz(url, vector, agent, timeout)
+			end
 		end
 	end
 
