@@ -45,7 +45,7 @@ class Crawler
 			# puts "No common-words file Specified."
 		end
 
-		return @@links.uniq #retuns a list of all the unique links
+		return @@links.uniq, @@formInputs #retuns a list of all the links and inputs
 
 	end
 
