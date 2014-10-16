@@ -113,6 +113,12 @@ class CLIParser
 				end
 			end
 		end
+		if (ARGV[0] == 'test')
+			if !options.keys.include?'vectors'
+				puts "No vector file given.  Aborting."
+				abort
+			end
+		end
 	#	puts options
 		return options
 	end
