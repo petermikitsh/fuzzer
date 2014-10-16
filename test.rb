@@ -13,20 +13,18 @@ require 'timeout'
 
 class Test
 
-	# urls: string array of absolute URL paths to test
+	# url: string array of absolute URL paths to test
 	# vectors: string array of replacive vectors to append to urls
 	# authAgent: optional 'Mechanize' agent (if authentication used
 
-	def self.test(urls, vectors, authAgent, random, timeout)
+	def self.test(url, vectors, authAgent, random, timeout)
 		puts "Testing Vectors..."
 		
 		# create a new agent with timeout attributes
 		agent = authAgent ? authAgent : Mechanize.new
 
-		urls.each do |url|
-			vectors.each do |vector|
-				Test.replaciveFuzz(url, vector, agent, timeout)
-			end
+		vectors.each do |vector|
+			Test.replaciveFuzz(url, vector, agent, timeout)
 		end
 	end
 
