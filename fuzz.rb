@@ -13,7 +13,7 @@ class Fuzz
 		elsif (ARGV[0] == "test")
 			agent = Authentication.authenticate(input['custom-auth'])
 			crawl = Crawler.crawl(agent, input['common-words'])
-			test = Test.test(ARGV[1], crawl, input['vectors'], nil, input['random'], input['slow'])
+			test = Test.test(ARGV[1], crawl[0], input['vectors'], nil, input['random'], input['slow'])
 		end
 	end
 
