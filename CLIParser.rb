@@ -9,7 +9,7 @@ class CLIParser
 	@@supportedCustomAuthentications = ["dvwa", "bodgeit"]
 	def self.parse
 		options = {}
-		options['slow'] = 15.0
+		options['slow'] = 0.5
 		#puts ARGV.inspect
 		if ARGV.length < 2
 			puts 'Wrong length.  Style is fuzz [discover | test] url OPTIONS'
