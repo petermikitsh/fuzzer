@@ -21,6 +21,9 @@ class CLIParser
 			abort
 		end
 
+		#add url to options
+		options['url'] = ARGV[1]
+
 		#OPTIONS are in the form --optionName=value
 		ARGV[2..-1].each do|arg|#Other options
 			optArray = Array.new

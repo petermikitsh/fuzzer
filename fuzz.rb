@@ -1,6 +1,7 @@
 require_relative 'CLIParser'
 require_relative 'Authentication'
 require_relative 'crawler'
+require_relative 'test'
 
 class Fuzz
 
@@ -9,8 +10,8 @@ class Fuzz
 		if (ARGV[0] == "discover")
 			agent = Authentication.authenticate(input['custom-auth'])
 			crawl = Crawler.crawl(agent, input['common-words'])
-		elsif (ARGV[0] !="test")
-			test = Test.test(input['url'], input['vectors'])#, nil)
+		elsif (ARGV[0] == "test")
+			test = Test.test(input['url'], input['vectors'], nil, input['random'], input['slow'])
 		end
 	end
 
