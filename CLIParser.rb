@@ -114,7 +114,7 @@ class CLIParser
 			end
 		end
 	#	puts options
-	#	return options
+		return options
 	end
 
 	#Converts ("true" | "false") into boolean values
@@ -139,5 +139,5 @@ class CLIParser
     end
 
     #Call self.parse for testing
-	parse
+	#parse
 end
