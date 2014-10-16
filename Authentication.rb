@@ -26,7 +26,7 @@ class Authentication
 		# authenticate via dvwa / bodgeit
 		if (["dvwa", "bodgeit"].include? webapp)
 
-			puts "Generating POST Request to #{webapp}..."
+			puts "Generating POST Authentication Request to #{webapp}..."
 
 			begin
 				agent.post(auth[webapp]["url"], {

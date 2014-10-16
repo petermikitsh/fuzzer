@@ -32,24 +32,33 @@ class Test
 	end
 
 	def self.createAttackURL(url, vector)
-		return url + "/" + vector;
+		return url + vector;
 	end
 
 	def self.replaciveFuzz(url, vector, agent, timeout)
 		begin
 			attack_url = Test.createAttackURL(url, vector)
-			puts "Testing URL #{attack_url}"
+			
 		  	Timeout.timeout(timeout) {
 		  		response = agent.get(attack_url)
 		  		if response.body.include? vector
-			      puts "\t Possible vulnerability identified. The response body contains the attack vector."
+		  		  Test.printVulnerabilityFound(attack_url)
+			      puts "\t The response body contains the attack vector."
 		        end
 		  	}
 		rescue Mechanize::ResponseCodeError => e
-			puts "\t Possible vulnerability identified. #{e.response_code} - Unexcepted response code."
+			if e.response_code != "404"
+				Test.printVulnerabilityFound(attack_url)
+				puts "\t Possible vulnerability identified. #{e.response_code} - Unexcepted response code."
+			end
 		rescue Timeout::Error
+			Test.printVulnerabilityFound(attack_url)
 			puts "\t Possible vulnerability identified. Timeout error."
 		end
+	end
+
+	def self.printVulnerabilityFound(attack_url)
+		puts "Possible vulnerability identified: URL #{attack_url}"
 	end
 
 end
