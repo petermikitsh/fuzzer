@@ -39,9 +39,13 @@ class Test
 			puts "Testing #{vector} on #{url}"
 		  	Timeout.timeout(5) { agent.get(Test.createAttackURL(url, vector)) }
 		rescue Mechanize::ResponseCodeError => e
-			puts "\t#{e.response_code} Unexcepted response code for url #{url} with vector #{vector}."
+			puts "\t Possible vulnerability identified. #{e.response_code} Unexcepted response code for url #{url} with vector #{vector}."
 		rescue Timeout::Error
-			puts "Timeout error for url #{url} with vector #{vector}."
+			puts "\t Possible vulnerability identified. Timeout error for url #{url} with vector #{vector}."
+		end
+
+		if agent.body.include? vector
+			puts "\t Possible vulnerability identified. The response body contains the attack vector. Vector: #{vector} Url: #{url}"
 		end
 	end
 
