@@ -118,6 +118,10 @@ class CLIParser
 				puts "No vector file given.  Aborting."
 				abort
 			end
+			if !options.keys.include?'sensitive'
+				puts "No sensitive data file given.  Aborting."
+				abort
+			end
 		end
 	#	puts options
 		return options
