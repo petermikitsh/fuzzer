@@ -9,6 +9,7 @@ class CLIParser
 	@@supportedCustomAuthentications = ["dvwa", "bodgeit"]
 	def self.parse
 		options = {}
+		options['slow'] = 15.0
 		#puts ARGV.inspect
 		if ARGV.length < 2
 			puts 'Wrong length.  Style is fuzz [discover | test] url OPTIONS'
@@ -93,6 +94,7 @@ class CLIParser
 					when 'int'
 						if is_i(optArray[1])#Need to test if optArray[1] is an int
 							optionValue = optArray[1].to_i
+							optionValue = optionValue / 1000.0 #convert milliseconds -> seconds
 						else
 							puts "Argument for #{optionKey} not an int"
 							abort
@@ -109,7 +111,7 @@ class CLIParser
 			end
 		end
 	#	puts options
-		return options
+	#	return options
 	end
 
 	#Converts ("true" | "false") into boolean values
@@ -134,5 +136,5 @@ class CLIParser
     end
 
     #Call self.parse for testing
-	#parse
+	parse
 end
