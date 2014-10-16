@@ -37,7 +37,7 @@ class Test
 	def self.replaciveFuzz(url, vector, agent, timeout)
 		begin
 			puts "Testing #{vector} on #{url}"
-		  	Timeout.timeout(5) { agent.get(Test.createAttackURL(url, vector)) }
+		  	Timeout.timeout(timeout) { agent.get(Test.createAttackURL(url, vector)) }
 		rescue Mechanize::ResponseCodeError => e
 			puts "\t Possible vulnerability identified. #{e.response_code} Unexcepted response code for url #{url} with vector #{vector}."
 		rescue Timeout::Error
