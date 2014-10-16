@@ -36,10 +36,12 @@ class Test
 		begin
 			attack_url = Test.createAttackURL(url, vector)
 			puts "Testing URL #{attack_url}"
-		  	Timeout.timeout(timeout) { response = agent.get(attack_url) }
-		    if response.body.include? vector
-			  puts "\t Possible vulnerability identified. The response body contains the attack vector."
-		    end
+		  	Timeout.timeout(timeout) {
+		  		response = agent.get(attack_url)
+		  		if response.body.include? vector
+			      puts "\t Possible vulnerability identified. The response body contains the attack vector."
+		        end
+		  	}
 		rescue Mechanize::ResponseCodeError => e
 			puts "\t Possible vulnerability identified. #{e.response_code} - Unexcepted response code."
 		rescue Timeout::Error
