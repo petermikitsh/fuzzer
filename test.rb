@@ -13,7 +13,7 @@ require 'timeout'
 
 class Test
 
-	# url: string array of absolute URL paths to test
+	# url: string of absolute URL paths to test
 	# vectors: string array of replacive vectors to append to urls
 	# authAgent: optional 'Mechanize' agent (if authentication used
 
